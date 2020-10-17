@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav aria-label="breadcrumb" class="mt-4 mb-3">
+  <ol class="breadcrumb" style="border: 1px solid #e9eccf; background-color: #fff">
+    <li class="breadcrumb-item"><a href="{% url 'base' %}"><i class="fa fa-home"></i> Главная</a></li>
+    <li class="breadcrumb-item active">{{category.name}}</li>
+  </ol>
+</nav>
+
+<div class="row">
+  {% for product in category_products %}
+
+  <div class="col-lg-4 col-md-6 mb-4">
+    <div class="card h-100">
+      <a href="{{product.get_absolute_url}}">
+        <img class="card-img-top img-fluid img-thumbnail" src="{{product.image.url}}" alt="{{product.title}}">
+      </a>
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="{{product.get_absolute_url}}" style="color: #1e347b">
+            {{product.title|truncatewords_html:5|safe}}
+          </a>
+        </h4>
+        <h5>{{product.price}} сом</h5>
+        <a href="{% url 'add_to_cart' ct_model=product.get_model_name slug=product.slug %}">
+          <button class="btn btn-danger">
+            <i class="fa fa-cart-plus"></i>
+            Добавить в корзину
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+{% endblock content %}
